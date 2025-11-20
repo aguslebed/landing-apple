@@ -1,0 +1,31 @@
+---
+const {title, image, altTextImage, description, button1, button2, backgroundColor} = Astro.props;
+
+const firstButton = button1 !="" ? true : false;
+const secondButton = button2 !="" ? true : false;
+---
+<div class={`relative max-w-[49%] max-h-[590px] bg-[${backgroundColor}] overflow-hidden`}
+style={`background-color: ${backgroundColor};`}
+>
+  <img 
+    src={image.src}
+    alt={altTextImage}
+    class="object-contains w-full"
+  />
+  <div class="absolute inset-0 flex flex-col items-center justify-start text-center text-black pt-4">
+    <h2 class="text-5xl mb-4 font-bold">{title}</h2>
+    <p class="text-2xl mb-4 whitespace-pre-line">{description}</p>
+    <div class="buttons flex gap-4">
+      {firstButton &&(
+      <button class="bg-[#0071e3] cursor-pointer text-white py-2 px-8 rounded-full transition-colors">
+        {button1}
+      </button>)
+      }
+     {secondButton &&(
+      <button class="cursor-pointer text-[#0071e3] py-2 px-6 rounded-full transition-colors border border-[#0071e3] hover:bg-[#0071e3] hover:text-white">
+        {button2}
+      </button>)
+      }
+    </div>
+  </div>
+</div>

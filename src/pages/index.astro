@@ -3,6 +3,10 @@ import NavBar from '../components/NavBar.astro';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import MainBanner from '../components/MainBanner.astro';
+import Products from '../components/Products.astro';
+import SecondBanner from '../components/SecondBanner.astro';
+import IphoneAirImage from '../../public/hero_iphone_air__0gxyavihpiqu_largetall.jpg'
+import Carousel from '../components/Carousel.astro';
 
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -13,4 +17,11 @@ import MainBanner from '../components/MainBanner.astro';
 	<NavBar />
     <Hero />
     <MainBanner />
+    <div class="sendond-banner mt-3">
+        <SecondBanner title="iPhone Air" image={IphoneAirImage} altTextImage="iPhone Air" description="The thinnest iPhone ever.\n With the power of pro inside." button1="Learn more" button2="Buy" backgroundColor="#f5f5f7" height="600px"/>
+    </div>
+    <div class="products mt-3 mx-4 overflow-hidden">
+        <Products />
+    </div>
+    <Carousel />
 </Layout>

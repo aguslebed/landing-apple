@@ -1,0 +1,22 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import Card from './Card.astro'
+
+const products = await getCollection('products');
+
+type Product = CollectionEntry<'products'>;
+console.log(products)
+---
+<div class="flex flex-wrap gap-6 justify-start w-full">
+    {products.map((product: Product) => (
+        <Card 
+            title={product.data.title}
+            image={{src: `${product.data.image}`}}
+            altTextImage={product.data.altTextImage}
+            description={product.data.description}
+            button1={product.data.button1}
+            button2={product.data.button2}
+            backgroundColor={product.data.backgroundColor}
+        />
+    ))}
+</div>

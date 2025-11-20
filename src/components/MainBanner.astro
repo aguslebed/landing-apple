@@ -1,17 +1,17 @@
 ---
-import BannerImage from "../../public/hero_iphone_17_pro__bknyzxfk2agi_mediumtall.jpg"
+import BannerImage from "../../public/hero_iphone_17_pro__bknyzxfk2agi_largetall.jpg"
 ---
 
-<div class="relative bg-black mt-4">
-    <div class="relative justify-items-center overflow-hidden">
+<div class="relative bg-black mt-3">
+    <div class="relative justify-items-center overflow-hidden h-screen">
         <img 
             src={BannerImage.src} 
             alt="hero image"  
-            class="object-cover scale-150" 
+            class="absolute bottom-0 left-0 right-0 object-cover scale-y-110 w-full h-full" 
         />
         <div class="absolute inset-x-0 top-20 flex flex-col items-center justify-center align-bottom text-center text-white ">
-            <h2 class="text-5xl mb-4">iPhone 17 Pro</h2>
-            <p class="text-2xl mb-8">All out Pro.</p>
+            <h2 class="text-5xl mb-4 font-bold">iPhone 17 Pro</h2>
+            <p class="text-2xl mb-4">All out Pro.</p>
             <div class="buttons flex gap-4">
                 <button class="bg-[#0071e3] cursor-pointer text-white py-2 px-8 rounded-full transition-colors">
                 Learn more
