@@ -12,6 +12,20 @@ const products = defineCollection({
     })
 });
 
+
+const NavBarMenu = defineCollection({
+    type: "content",
+    schema: z.object({
+        menus: z.array(
+            z.object({
+                title: z.string(),
+                items: z.array(z.string()),
+            })
+        ),
+    }),
+});
+
 export const collections = {
     products,
+    NavBarMenu,
 };

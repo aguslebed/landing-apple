@@ -1,0 +1,14 @@
+---
+const { text, href } = Astro.props;
+---
+
+<li>
+    <a
+        href={href}
+        onmouseover={`console.log('Mouse over triggered'); this.dispatchEvent(new CustomEvent('customHover', { detail: { hovered: true, hoveredMenu: '${text}' }, bubbles: true }))`}
+        onmouseout={`console.log('Mouse out triggered'); this.dispatchEvent(new CustomEvent('customHover', { detail: { hovered: false, hoveredMenu: '${text}' }, bubbles: true }))`}
+        class="px-8 py-4"
+    >
+        {text}
+    </a>
+</li>

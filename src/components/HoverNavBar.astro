@@ -1,0 +1,106 @@
+---
+import { getCollection } from "astro:content";
+
+const menuCollections = await getCollection("NavBarMenu");
+---
+
+<div
+    id="hover-nav-container"
+    class="absolute top-full left-0 w-full bg-white text-black transition-opacity duration-300 opacity-0 pointer-events-none z-40 pt-10 pb-16 shadow-xl"
+>
+    {
+        menuCollections.map((collection) => (
+            <nav
+                class="menu-section hidden grid grid-cols-3 gap-10 max-w-screen-lg mx-auto"
+                data-menu-id={collection.id.replace(".md", "")}
+            >
+                {collection.data.menus.map((menu) => (
+                    <div>
+                        <h3 class="font-semibold mb-2 text-gray-500 text-xs">
+                            {menu.title}
+                        </h3>
+                        <ul class="space-y-2">
+                            {menu.items.map((item) => (
+                                <li class="text-sm font-semibold hover:text-blue-500 cursor-pointer">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </nav>
+        ))
+    }
+</div>
+
+<script is:inline>
+    const container = document.getElementById("hover-nav-container");
+    const sections = document.querySelectorAll(".menu-section");
+
+    let hideTimeout = null;
+    let currentMenuId = null;
+
+    console.log("HoverNavBar script loaded. Sections found:", sections.length);
+
+    function showMenu(menuId) {
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
+
+        currentMenuId = menuId;
+        let found = false;
+
+        sections.forEach((section) => {
+            if (section.dataset.menuId === menuId) {
+                section.classList.remove("hidden");
+                found = true;
+            } else {
+                section.classList.add("hidden");
+            }
+        });
+
+        if (found) {
+            container.classList.remove("opacity-0", "pointer-events-none");
+        }
+    }
+
+    function hideMenu() {
+        hideTimeout = setTimeout(() => {
+            container.classList.add("opacity-0", "pointer-events-none");
+            currentMenuId = null;
+        }, 150); // Small delay to allow moving from navbar to submenu
+    }
+
+    // Listen to navbar item hover events
+    document.addEventListener("customHover", (event) => {
+        console.log("HoverNavBar received event:", event.detail);
+        const { hovered, hoveredMenu } = event.detail;
+
+        if (!hovered) {
+            hideMenu();
+            return;
+        }
+
+        if (!hoveredMenu) return;
+
+        const menuId = hoveredMenu.toLowerCase().trim();
+        console.log("Looking for menuId:", menuId);
+        showMenu(menuId);
+    });
+
+    // Keep menu open when hovering over the container
+    container.addEventListener("mouseenter", () => {
+        console.log("Mouse entered container");
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
+    });
+
+    // Hide menu when leaving the container
+    container.addEventListener("mouseleave", () => {
+        console.log("Mouse left container");
+        hideMenu();
+    });
+</script>

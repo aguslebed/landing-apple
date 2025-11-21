@@ -9,21 +9,65 @@ import Footer from "../components/Footer.astro";
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link
-			rel="icon"
-			type="image/svg+xml"
-			href="/apple-logo-svgrepo-com.svg"
-		/>
-		<meta name="generator" content={Astro.generator} />
 		<title>Apple</title>
-		<script>
+
+		<script type="module">
 			import "flyonui/flyonui";
 		</script>
+
+		<script is:inline>
+			console.log("Attaching customHover listener");
+
+			let navbarHovered = false;
+			let submenuVisible = false;
+
+			function updateBlur() {
+				const wrapper = document.getElementById("content-wrapper");
+				if (wrapper) {
+					if (navbarHovered || submenuVisible) {
+						wrapper.classList.add("blur-lg");
+					} else {
+						wrapper.classList.remove("blur-lg");
+					}
+				}
+			}
+
+			// Listen to navbar item hover
+			document.addEventListener("customHover", (event) => {
+				navbarHovered = event.detail.hovered === true;
+				updateBlur();
+			});
+
+			// Listen to submenu visibility changes
+			document.addEventListener("DOMContentLoaded", () => {
+				const container = document.getElementById(
+					"hover-nav-container",
+				);
+				if (container) {
+					// Use MutationObserver to watch for class changes
+					const observer = new MutationObserver(() => {
+						submenuVisible =
+							!container.classList.contains("opacity-0");
+						updateBlur();
+					});
+
+					observer.observe(container, {
+						attributes: true,
+						attributeFilter: ["class"],
+					});
+				}
+			});
+		</script>
 	</head>
+
 	<body>
 		<NavBar />
-		<slot />
-		<Footer />
+
+		<!-- USAMOS UN ID PARA CONTROLAR EL BLUR DESDE JS -->
+		<div id="content-wrapper">
+			<slot />
+			<Footer />
+		</div>
 	</body>
 </html>
 
